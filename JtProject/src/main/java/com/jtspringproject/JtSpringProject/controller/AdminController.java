@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,8 @@ import com.jtspringproject.JtSpringProject.services.userService;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+	private static final Logger logger= LoggerFactory.getLogger(AdminController.class);
 
 	private final userService userService;
 	private final categoryService categoryService;
@@ -63,6 +67,7 @@ public class AdminController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    ModelAndView mv = new ModelAndView("adminHome");
 	    mv.addObject("admin", authentication.getName());
+		logger.info("Redirecting to adminHome jsp");
 	    return mv;
 	}
 	
