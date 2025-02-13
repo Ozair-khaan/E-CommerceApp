@@ -67,7 +67,7 @@ public class AdminController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    ModelAndView mv = new ModelAndView("adminHome");
 	    mv.addObject("admin", authentication.getName());
-		logger.info("Redirecting to adminHome jsp");
+		logger.info("Redirecting to adminHome.jsp");
 	    return mv;
 	}
 	
