@@ -33,7 +33,7 @@ import com.jtspringproject.JtSpringProject.services.userService;
 @RequestMapping("/admin")
 public class AdminController {
 
-	private static final Logger logger= LoggerFactory.getLogger(AdminController.class);
+	//private static final Logger logger= LoggerFactory.getLogger(AdminController.class);
 
 	private final userService userService;
 	private final categoryService categoryService;
@@ -67,7 +67,7 @@ public class AdminController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    ModelAndView mv = new ModelAndView("adminHome");
 	    mv.addObject("admin", authentication.getName());
-		logger.info("Redirecting to adminHome.jsp");
+		//logger.info("Redirecting to adminHome jsp");
 	    return mv;
 	}
 	
@@ -94,7 +94,7 @@ public class AdminController {
 	
 	@GetMapping("categories/delete")
 	public String removeCategoryDb(@RequestParam("id") int id)
-	{	
+	{
 			this.categoryService.deleteCategory(id);
 			return "redirect:/admin/categories";
 	}
@@ -160,10 +160,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "products/update/{id}",method=RequestMethod.POST)
-	public String updateProduct(@PathVariable("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
+	public String updateProduct(@PathVariable("id") int id ,@RequestParam("name") Product name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
 	{
 
-//		this.productService.updateProduct();
+		this.productService.updateProduct(id, name);
+		//this.categoryService.updateCategory(id, categoryId);
 		return "redirect:/admin/products";
 	}
 	

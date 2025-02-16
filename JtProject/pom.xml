@@ -64,17 +64,18 @@
 		</dependency>
 
 		<!-- SLF4J API -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.9</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.slf4j</groupId>-->
+<!--			<artifactId>slf4j-api</artifactId>-->
+<!--			<version>2.0.9</version>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.4.14</version>
-		</dependency>
+<!--		&lt;!&ndash; SLF4J Implementation (Logback - Recommended) &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>ch.qos.logback</groupId>-->
+<!--			<artifactId>logback-classic</artifactId>-->
+<!--			<version>1.4.14</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 

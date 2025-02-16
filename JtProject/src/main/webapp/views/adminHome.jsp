@@ -52,7 +52,10 @@
 				<div class="card border border-info" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Categories</h4>
-						<p>---------------------------------------------</p>
+						<!-- <div> -->
+							<img src="<%= request.getContextPath() %>/Users/ozair/Documents/Java_Project/Ecommerce/E-commerce-project-springBoot/JtProject/src/main/webapp/Section-Symbol/categorization.png" >
+						<!-- </div> -->
+						<!-- <p>---------------------------------------------</p> -->
 						<p class="card-text">Manage the categories section here.</p>
 						<a href="/admin/categories" class="card-link btn btn-primary">Manage</a>
 
