@@ -59,32 +59,62 @@ public class SecurityConfiguration {
 	@Order(2)
 	public static class UserConfigurationAdapter{
 		
-		@Bean
-		SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
-            http.authorizeHttpRequests(requests -> requests
-            		.antMatchers("/login", "/register", "/newuserregister" ,"/test", "/test2").permitAll()
-                    .antMatchers("/**").hasRole("USER"))
-                    .formLogin(login -> login
-                            .loginPage("/login")
-                            .loginProcessingUrl("/userloginvalidate")
-                            .successHandler((request, response, authentication) -> {
-                                response.sendRedirect("/"); // Redirect on success
-                            })
-                            .failureHandler((request, response, exception) -> {
-                                response.sendRedirect("/login?error=true"); // Redirect on failure
-                            }))
-                    
-                    .logout(logout -> logout.logoutUrl("/logout")
-                            .logoutSuccessUrl("/login")
-                            .deleteCookies("JSESSIONID"))
-                    .exceptionHandling(exception -> exception
-                            .accessDeniedPage("/403")  // Custom 403 page
-                        );
+//		@Bean
+//		SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
+//            http.authorizeHttpRequests(requests -> requests
+//            		.antMatchers("/login", "/register", "/newuserregister" ,"/test", "/test2").permitAll()
+//                    .antMatchers("/**").hasRole("USER"))
+//                    .formLogin(login -> login
+//                            .loginPage("/login")
+//                            .loginProcessingUrl("/userloginvalidate")
+//                            .successHandler((request, response, authentication) -> {
+//                                response.sendRedirect("/"); // Redirect on success
+//                            })
+//                            .failureHandler((request, response, exception) -> {
+//                                response.sendRedirect("/login?error=true"); // Redirect on failure
+//                            }))
+//
+//                    .logout(logout -> logout.logoutUrl("/logout")
+//                            .logoutSuccessUrl("/login")
+//                            .deleteCookies("JSESSIONID"))
+//                    .exceptionHandling(exception -> exception
+//                            .accessDeniedPage("/403")  // Custom 403 page
+//                        );
+//
+//            http.csrf(csrf -> csrf.disable());
+//			return http.build();
+//		}
 
-            http.csrf(csrf -> csrf.disable());
+		@Bean
+		public SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception {
+			http
+					.authorizeRequests()
+					.antMatchers("/icons/**", "/images/**", "/css/**", "/js/**").permitAll() // Allow public access to static files
+					.antMatchers("/login", "/register", "/newuserregister").permitAll()
+					.antMatchers("/**").hasRole("USER") // Protect all other endpoints
+					.and()
+					.formLogin()
+					.loginPage("/login")
+					.loginProcessingUrl("/userloginvalidate")
+					.defaultSuccessUrl("/", true)
+					.failureUrl("/login?error=true")
+					.and()
+					.logout()
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login")
+					.deleteCookies("JSESSIONID")
+					.and()
+					.exceptionHandling()
+					.accessDeniedPage("/403") // Custom 403 error page
+					.and()
+					.csrf().disable(); // Disable CSRF for testing
+
 			return http.build();
 		}
+
 	}
+
+
 	
 	@Bean
 	UserDetailsService userDetailsService() {

@@ -13,6 +13,33 @@
 	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
 	crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+<style>
+	.admin-heading {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #2c3e50;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-icon {
+        width: 100px;
+        height: 100px;
+        margin: 10px auto;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+
 <title>Document</title>
 </head>
 
@@ -43,7 +70,7 @@
 		</div>
 	</nav>
 	<div class="jumbotron text-center">
-		<h1 class="display-4">Welcome Back, Admin</h1><hr>
+		<h1 class="display-4 admin-heading" >Welcome Back, Admin</h1><hr>
 		<p>Manage your data from this Admin Panel</p>
 	</div><br>
 	<div class="container-fluid" >
@@ -52,9 +79,9 @@
 				<div class="card border border-info" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Categories</h4>
-						<!-- <div> -->
-							<img src="<%= request.getContextPath() %>/Users/ozair/Documents/Java_Project/Ecommerce/E-commerce-project-springBoot/JtProject/src/main/webapp/Section-Symbol/categorization.png" >
-						<!-- </div> -->
+						
+							<!-- <img src="<%= request.getContextPath() %>/icon/furniture.png" class="category-icon" > -->
+							<img th:src="@{/icon/furniture.png}" class="category-icon" alt="Categorization">
 						<!-- <p>---------------------------------------------</p> -->
 						<p class="card-text">Manage the categories section here.</p>
 						<a href="/admin/categories" class="card-link btn btn-primary">Manage</a>
