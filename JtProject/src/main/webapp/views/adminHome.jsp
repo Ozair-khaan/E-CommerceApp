@@ -81,9 +81,11 @@
 						<h4 class="card-title">Categories</h4>
 						
 							<!-- <img src="<%= request.getContextPath() %>/icon/furniture.png" class="category-icon" > -->
-							<img th:src="@{/icon/furniture.png}" class="category-icon" alt="Categorization">
+							<!-- <img th:src="@{/icon/furniture.png}" class="category-icon" alt="Categorization"> -->
+							<img src="https://www.shutterstock.com/image-vector/category-icon-flat-illustration-vector-600nw-2431883211.jpg"
+							height="100px" width="100px" ><br>
 						<!-- <p>---------------------------------------------</p> -->
-						<p class="card-text">Manage the categories section here.</p>
+						<!-- <p class="card-text">Manage the categories section here.</p> -->
 						<a href="/admin/categories" class="card-link btn btn-primary">Manage</a>
 
 					</div>
@@ -93,8 +95,10 @@
 				<div class="card" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Products</h4>
-						<p>---------------------------------------------</p>
-						<p class="card-text">Manage all the products here.</p>
+						<!-- <p>---------------------------------------------</p> -->
+						<img src="https://static.thenounproject.com/png/1375593-200.png" height="100px" width="100px" alt="product">
+						<br>
+						<!-- <p class="card-text">Manage all the products here.</p> -->
 						<a href="/admin/products" class="card-link btn btn-primary">Manage</a>
 
 					</div>
@@ -104,8 +108,10 @@
 				<div class="card" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Customers</h4>
-						<p>---------------------------------------------</p>
-						<p class="card-text">Manage all the customer here.</p>
+						<!-- <p>---------------------------------------------</p> -->
+						<img src="https://media.istockphoto.com/id/1017466322/vector/target-audience-customer-client-targeting-consumer-centricity-aim-people-sign.jpg?s=612x612&w=0&k=20&c=E5iUfNUeU0wYtJfY6fBOtUQPaNhcAccWFmeuobl15qE=" height="100px" width="100px" alt="product">
+						<br>
+						<!-- <p class="card-text">Manage all the customer here.</p> -->
 						<a href="/admin/customers" class="card-link btn btn-primary">Manage</a>
 
 					</div>
