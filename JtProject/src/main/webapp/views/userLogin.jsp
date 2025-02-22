@@ -1,79 +1,184 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <title>User Login</title>
+    <title>Login - SnapKart</title>
+
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <style>
+        
         body {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.4s;
+            color: #ffffff;
         }
-        .login-container {
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            background: white;
-        }
-        .login-container .jumbotron {
-            border-radius: 8px;
-        }
-        .input-group-text {
-            background-color: #007bff;
+
+        
+        .dark-mode {
+            background: linear-gradient(135deg, #121212, #1e1e1e) !important;
             color: white;
-            border-radius: 0.25rem 0 0 0.25rem;
         }
-        .input-group-prepend .input-group-text {
-            border-right: 0;
+
+        
+        .login-container {
+            width: 400px;
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            background: rgba(44, 62, 80, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #fff;
+            transition: 0.3s;
         }
+
+        .dark-mode .login-container {
+            background: rgba(30, 30, 30, 0.8);
+        }
+
+        .login-container h2 {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+       
         .form-control {
-            border-radius: 0 0.25rem 0.25rem 0;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+       
+        .input-group-text {
+            background-color: #ff9900;
+            color: white;
+            border: none;
+        }
+
+        .dark-mode .input-group-text {
+            background-color: #ff7700;
+        }
+
+       
+        .btn-custom {
+            background: #ff9900;
+            border: none;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            background: #ff7700;
+            transform: scale(1.05);
+        }
+
+        
+        .toggle-mode {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            color: white;
+        }
+
+        .dark-mode .password-toggle {
+            color: #ddd;
         }
     </style>
 </head>
+
 <body>
 
-<div class="login-container p-4">
-    <div class="jumbotron border p-4">
-        <h2 class="text-center">User Login</h2>
-        <form action="/userloginvalidate" method="post">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    </div>
-                    <input type="text" name="username" id="username" placeholder="Username*" required class="form-control form-control-lg">
+<i class="fa-solid fa-moon toggle-mode" id="toggleDarkMode"></i>
+
+<div class="login-container">
+    <h2>Login</h2>
+    <p>Welcome back to SnapKart</p>
+
+    <form action="/userloginvalidate" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
+                <input type="text" name="username" id="username" required placeholder="Enter Username" class="form-control form-control-lg">
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    </div>
-                    <input type="password" class="form-control form-control-lg" placeholder="Password*" required name="password" id="password">
+        </div>
+
+        <div class="form-group position-relative">
+            <label for="password">Password</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 </div>
+                <input type="password" name="password" id="password" required placeholder="Enter Password" class="form-control form-control-lg">
+                <i class="fa fa-eye password-toggle" id="togglePassword"></i>
             </div>
-            <span>Don't have an account? <a class="linkControl" href="/register">Register here</a></span> <br><br>
-            <input type="submit" value="Login" class="btn btn-primary btn-block">
-            <h3 class="text-center text-danger mt-3">${msg}</h3>
-        </form>
-    </div>
+        </div>
+
+        <p>Don't have an account? <a href="/register" style="color: #fff; text-decoration: underline;">Register here</a></p>
+
+        <button type="submit" class="btn btn-custom btn-block">Login</button>
+    </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+    $(document).ready(function () {
+        if (localStorage.getItem("darkMode") === "enabled") {
+            $("body").addClass("dark-mode");
+            $("#toggleDarkMode").addClass("fa-sun");
+        }
+    });
+
+    $("#toggleDarkMode").click(function () {
+        $("body").toggleClass("dark-mode");
+        $(this).toggleClass("fa-sun fa-moon");
+        localStorage.setItem("darkMode", $("body").hasClass("dark-mode") ? "enabled" : "disabled");
+    });
+
+    
+    $("#togglePassword").click(function () {
+        let passwordField = $("#password");
+        let type = passwordField.attr("type") === "password" ? "text" : "password";
+        passwordField.attr("type", type);
+        $(this).toggleClass("fa-eye fa-eye-slash");
+    });
+</script>
+
 </body>
 </html>

@@ -4,94 +4,106 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Customer Management - SnapKart</title>
 
-<title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body { background-color: #f8f9fa; transition: 0.3s; }
+        .dark-mode { background-color: #121212 !important; color: white !important; }
+        .dark-mode table { background-color: #1e1e1e !important; color: white; }
+        .dark-mode th, .dark-mode td { border-color: #555; }
+        .dark-mode .navbar { background-color: #1e1e1e !important; }
+        .dark-mode .btn-warning { background-color: #ff9900 !important; border-color: #ff9900; }
+        .snapkart-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
-<body class="bg-light">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				th:src="@{/images/logo.png}" src="../static/images/logo.png"
-				width="auto" height="40" class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="Dashboard">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="logout">Logout</a>
-					</li>
-
-				</ul>
-
-			</div>
-		</div>
-	</nav><br>
-	<div class="container-fluid">
-
-		
-		<table class="table">
-
-			<tr>
-				
-				<th scope="col">Customer Name</th>
-				<th scope="col">Email</th>
-				<th scope="col">Address</th>
-				<th scope="col">Delete</th>
-			</tr>
-			<tbody>
-				<c:forEach var="customer" items="${customers }">
-				<tr>
-					<td>
-						${customer.username}
-					</td>
-					<td>
-					    ${customer.email}
-						
-					</td>
-					<td>
-					    ${customer.address}
-						
-				    </td>
-					</tr>
-                </c:forEach>
+<body>
 
 
-				
-			</tbody>
-		</table>
-		
-	</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-shopping-cart"></i> <span class="snapkart-brand">SnapKart</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link active" href="Dashboard">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+                <li class="nav-item">
+                    <button class="btn btn-warning btn-sm" id="toggleMode">Dark Mode</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
+<div class="container-fluid mt-4">
+    <h2 class="text-center mb-4">Customer Management</h2>
 
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="customer" items="${customers}">
+                <tr>
+                    <td>${customer.username}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.address}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${customer.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script>
+   
+    document.getElementById("toggleMode").addEventListener("click", function() {
+        document.body.classList.toggle("dark-mode");
+    });
+
+    
+    $(".delete-btn").click(function() {
+        let customerId = $(this).data("id");
+        if (confirm("Are you sure you want to delete this customer?")) {
+            window.location.href = "deleteCustomer?id=" + customerId;
+        }
+    });
+</script>
+
 </body>
 </html>

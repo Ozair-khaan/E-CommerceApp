@@ -1,185 +1,119 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<!doctype html>
-<%@page import="java.sql.*"%>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-	crossorigin="anonymous">
-<title>Category</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | SnapKart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            transition: background 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .dark-mode .card, .dark-mode .modal-content, .dark-mode .table {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border-color: #333;
+        }
+        .dark-mode .btn-primary {
+            background-color: #ff9900;
+            border-color: #ff9900;
+        }
+    </style>
 </head>
-<body class="bg-light">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img src="@{/images/logo.png}"
-				src="../static/images/logo.png" width="auto" height="40"
-				class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SnapKart</a>
+            <button class="btn btn-outline-light" id="darkModeToggle">Dark Mode</button>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2 class="text-center">Manage Categories</h2>
+        <button class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
+        
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>SN</th>
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="category" items="${categories}">
+                    <tr>
+                        <td>${category.id}</td>
+                        <td>${category.name}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateCategoryModal"
+                                onclick="document.getElementById('updateCategoryName').value = '${category.name}';
+                                         document.getElementById('updateCategoryId').value = '${category.id}';">Update</button>
+                            <form action="categories/delete" method="get" class="d-inline">
+                                <input type="hidden" name="id" value="${category.id}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="Dashboard">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="logout">Logout</a>
-					</li>
+    <!-- Add Category Modal -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="categories" method="post">
+                    <div class="modal-body">
+                        <input type="text" name="categoryname" class="form-control" required placeholder="Category Name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-				</ul>
+    <!-- Update Category Modal -->
+    <div class="modal fade" id="updateCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="categories/update" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="categoryid" id="updateCategoryId">
+                        <input type="text" name="categoryname" id="updateCategoryName" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-			</div>
-		</div>
-	</nav><br>
-	<div class="container">
-
-
-
-		<!-- Button trigger modal -->
-		<button type="button" style="margin: 20px 0" class="btn btn-primary"
-			data-toggle="modal" data-target="#exampleModalCenter">Add
-			Category</button>
-
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-			role="dialog" aria-labelledby="exampleModalCenterTitle"
-			aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<form action="categories" method="post">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLongTitle">Add New
-								Category</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body  text-center">
-							<input type="text" name="categoryname" class="form-control"
-								id="name" required="required" placeholder="Category name">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-							<input type="submit" value="Save Changes" class="btn btn-primary">
-						</div>
-					</form>
-				</div>
-			</div>
-		</div><br>
-
-
-
-
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th scope="col">SN</th>
-					<th scope="col">Category Name</th>
-					<th scope="col">Delete</th>
-					<th scope="col">Update</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-				<c:forEach var="category" items="${categories }">
-				<tr>
-					<td>${category.id }</td>
-					<td>${category.name }</td>
-
-					<td>
-						<form action="categories/delete" method="get">
-							<input type="hidden" name="id" value="${category.id}">
-							<input type="submit" value="Delete" class="btn btn-danger">
-						</form>
-					</td>
-
-					<td>
-						<form action="categories/update" method="get">
-
-
-
-
-							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning" data-toggle="modal"
-								data-target="#exampleModalCenter2"
-								onclick="document.getElementById('categoryname').value =  '${category.name }'; document.getElementById('categoryid').value =  '${category.id}'; ">Update
-							</button>
-
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter2" tabindex="-1"
-								role="dialog" aria-labelledby="exampleModalCenterTitle"
-								aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Update
-													Product Details</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body text-center">
-												<div class="form-group">
-													<input class="form-control" type="number"
-														readonly="readonly" name ="categoryid" id="categoryid" value="0">
-												</div>
-												<div class="form-group">
-													<input class="form-control" type="text" name= "categoryname" id="categoryname"
-														value="categoryname">
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary"
-													data-dismiss="modal">Close</button>
-												<button type="submit" class="btn btn-primary">Update
-													changes</button>
-											</div>
-
-										</div>
-								</div>
-							</div>
-
-
-
-						</form>
-					</td>
-
-				</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("darkModeToggle").addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+        });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

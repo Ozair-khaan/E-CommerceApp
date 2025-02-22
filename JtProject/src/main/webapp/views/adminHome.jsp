@@ -2,139 +2,124 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-	crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <style>
-	.admin-heading {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        letter-spacing: 1px;
-        color: #2c3e50;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    }
+    body { background-color: #f8f9fa; }
+    .admin-heading { font-family: 'Poppins', sans-serif; font-weight: 700; color: #2c3e50; }
+    .card { border: none; transition: transform 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .card:hover { transform: scale(1.05); }
+    .dashboard-summary { background: linear-gradient(45deg, #FFA500, #FF5733); color: white; padding: 20px; border-radius: 10px; }
+    .snapkart-brand { font-weight: bold; background: linear-gradient(45deg, #FFA500, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; }
+    .dark-mode { background-color: #343a40 !important; color: white !important; }
+	body.dark-mode {
+    background-color: #121212 !important;
+    color: #ffffff;
+}
 
-    .category-icon {
-        width: 100px;
-        height: 100px;
-        margin: 10px auto;
-    }
+.dark-mode .card {
+    background-color: #1e1e1e !important;
+    color: #ffffff;
+    border: 1px solid #333;
+}
 
-    .card {
-        border: 1px solid #ddd;
-        transition: 0.3s;
-    }
+.dark-mode .btn-primary {
+    background-color: #ff9900 !important;
+    border-color: #ff9900;
+}
 
-    .card:hover {
-        transform: scale(1.05);
-    }
+.dark-mode .jumbotron {
+    background: linear-gradient(45deg, #ff7700, #ff5500);
+    color: white;
+}
+
 </style>
-
-<title>Document</title>
+<title>Admin Dashboard | SnapKart</title>
 </head>
 
-<body class="bg-dark">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				src="../static/images/logo.png" width="auto" height="40"
-				class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand snapkart-brand" href="/admin/">
+            <i class="fas fa-shopping-cart"></i> SnapKart
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/admin/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/logout">Logout</a></li>
+                <li class="nav-item"><button class="btn btn-warning btn-sm" id="toggleMode">Dark Mode</button></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/admin/">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/admin/logout">Logout</a></li>
+<div class="container mt-4">
+    <div class="dashboard-summary text-center">
+        <h2>Welcome Back, Admin</h2>
+        <p>Manage your eCommerce platform efficiently</p>
+    </div>
+    <br>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card p-4">
+                <h4>Total Orders</h4>
+                <p class="lead">1,234</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4">
+                <h4>Total Revenue</h4>
+                <p class="lead">$12,345</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4">
+                <h4>Active Users</h4>
+                <p class="lead">567</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center p-4">
+                <h4>Categories</h4>
+                <i class="fas fa-th-large fa-3x"></i>
+                <a href="/admin/categories" class="btn btn-primary mt-2">Manage</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-4">
+                <h4>Products</h4>
+                <i class="fas fa-box fa-3x"></i>
+                <a href="/admin/products" class="btn btn-primary mt-2">Manage</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-4">
+                <h4>Customers</h4>
+                <i class="fas fa-users fa-3x"></i>
+                <a href="/admin/customers" class="btn btn-primary mt-2">Manage</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-				</ul>
+<script>
+    document.getElementById('toggleMode').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
 
-			</div>
-		</div>
-	</nav>
-	<div class="jumbotron text-center">
-		<h1 class="display-4 admin-heading" >Welcome Back, Admin</h1><hr>
-		<p>Manage your data from this Admin Panel</p>
-	</div><br>
-	<div class="container-fluid" >
-		<div class="row justify-content-center">
-			<div class="col-sm-3 pt-4">
-				<div class="card border border-info" style="background-color: white;">
-					<div class="card-body text-center">
-						<h4 class="card-title">Categories</h4>
-						
-							<!-- <img src="<%= request.getContextPath() %>/icon/furniture.png" class="category-icon" > -->
-							<!-- <img th:src="@{/icon/furniture.png}" class="category-icon" alt="Categorization"> -->
-							<img src="https://www.shutterstock.com/image-vector/category-icon-flat-illustration-vector-600nw-2431883211.jpg"
-							height="100px" width="100px" ><br>
-						<!-- <p>---------------------------------------------</p> -->
-						<!-- <p class="card-text">Manage the categories section here.</p> -->
-						<a href="/admin/categories" class="card-link btn btn-primary">Manage</a>
-
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-3 pt-4">
-				<div class="card" style="background-color: white;">
-					<div class="card-body text-center">
-						<h4 class="card-title">Products</h4>
-						<!-- <p>---------------------------------------------</p> -->
-						<img src="https://static.thenounproject.com/png/1375593-200.png" height="100px" width="100px" alt="product">
-						<br>
-						<!-- <p class="card-text">Manage all the products here.</p> -->
-						<a href="/admin/products" class="card-link btn btn-primary">Manage</a>
-
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-3 pt-4">
-				<div class="card" style="background-color: white;">
-					<div class="card-body text-center">
-						<h4 class="card-title">Customers</h4>
-						<!-- <p>---------------------------------------------</p> -->
-						<img src="https://media.istockphoto.com/id/1017466322/vector/target-audience-customer-client-targeting-consumer-centricity-aim-people-sign.jpg?s=612x612&w=0&k=20&c=E5iUfNUeU0wYtJfY6fBOtUQPaNhcAccWFmeuobl15qE=" height="100px" width="100px" alt="product">
-						<br>
-						<!-- <p class="card-text">Manage all the customer here.</p> -->
-						<a href="/admin/customers" class="card-link btn btn-primary">Manage</a>
-
-					</div>
-				</div>
-			</div>
-			
-			
-			
-		</div>
-	</div>
-
-
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
