@@ -63,7 +63,7 @@
 <div class="container mt-4">
     <div class="dashboard-summary text-center">
         <h2>Welcome Back, ${admin}</h2>
-        <p>Manage your eCommerce platform efficiently</p>
+        <p>Empower your business with seamless management.</p>
     </div>
     <br>
     <div class="row text-center">

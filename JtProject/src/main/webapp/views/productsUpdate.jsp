@@ -158,7 +158,7 @@ select {
 	<br>
 	<div class="jumbotron container border border-info">
 		<h3>Update Existing Product</h3>
-		<form action="/admin/products/update/${product.id}" method="post">
+		<form action="<c:url value='/products/update/${product.id}'/>" method="post">
 			<div class="row">
 				<div class="col-sm-5">
 					<div class="form-group">
@@ -171,8 +171,8 @@ select {
 					</div>
 					<div class="form-group">
 						<label for="category">Select Category</label> 
-						<select class="form-control border border-success" name="categoryid" readonly>
-							<option selected>Select a Category</option>
+						<select class="form-control border border-success" name="categoryid" >
+							<option value="" disabled selected>Select a Category</option>
 							<c:forEach var="category" items="${categories}">
 								<option value="${category.id}">${category.name}</option>
 							</c:forEach>

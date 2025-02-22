@@ -35,10 +35,12 @@ public class productDao {
 		return this.sessionFactory.getCurrentSession().get(Product.class, id);
 	}
 
-	public Product updateProduct(Product product){
+	public void updateProduct(Product product){
 //		this.sessionFactory.getCurrentSession().update(String.valueOf(Product.class),product);
-		this.sessionFactory.getCurrentSession().update(product);
-		return product;
+		Session session=sessionFactory.getCurrentSession();
+		session.merge(product);
+//		this.sessionFactory.getCurrentSession().update(product);
+//		return product;
 	}
 	@Transactional
 	public Boolean deletProduct(int id) {
