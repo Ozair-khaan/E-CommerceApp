@@ -55,3 +55,10 @@ CREATE INDEX FK7u438kvwr308xcwr4wbx36uiw
 
 CREATE INDEX FKt23apo8r9s2hse1dkt95ig0w5
     ON PRODUCT (customer_id);
+
+
+#run at when find duplicate entry
+
+UPDATE hibernate_sequence SET next_val = (SELECT MAX(category_id) + 1 FROM CATEGORY);
+
+#run when getting error while deleting any product
