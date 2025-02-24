@@ -23,9 +23,25 @@ public class cartDao {
         return cart;
     }
 
+//    @Transactional
+//    public List<Cart> getCarts() {
+//        return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
+//    }
+
     @Transactional
     public List<Cart> getCarts() {
-        return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
+        // Query using the entity name "CART" defined in your Cart entity
+        return this.sessionFactory.getCurrentSession()
+                .createQuery("from CART")
+                .list();
+    }
+
+    @Transactional
+    public Cart getCartByCustomerId(int customerId) {
+        return (Cart) this.sessionFactory.getCurrentSession()
+                .createQuery("from CART c where c.customer.id = :customerId")
+                .setParameter("customerId", customerId)
+                .uniqueResult();
     }
 
 //    @Transactional
