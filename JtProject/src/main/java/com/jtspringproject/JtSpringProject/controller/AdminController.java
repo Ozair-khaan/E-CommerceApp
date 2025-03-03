@@ -16,12 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jtspringproject.JtSpringProject.models.Category;
@@ -271,13 +266,15 @@ public class AdminController {
     // Endpoint for administrators to view all carts
     @GetMapping("/admin/carts")
     public String showAllCarts(Model model) {
+
         model.addAttribute("carts", cartService.getAllCarts());
         return "carts"; // maps to carts.jsp (or another view technology)
     }
 
     // Endpoint for a customer to view their own cart
-    @GetMapping("/cart")
-    public String showCart(Model model, HttpSession session) {
+    @GetMapping("cartDisplay")
+    public Object showCart(Model model, HttpSession session) {
+        ModelAndView mmView = new ModelAndView("cartproduct");
         // Retrieve the logged-in customer's ID from session
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
@@ -286,7 +283,42 @@ public class AdminController {
         }
         Cart cart = cartService.getCartByCustomerId(userId);
         model.addAttribute("cart", cart);
-        return "cart"; // maps to cart.jsp which displays the cart details
+        mmView.addObject("customers",cart);
+        return mmView; // maps to cart.jsp which displays the cart details
+    }
+
+    //1 march
+    @GetMapping("cartDisplayy")
+    @ResponseBody
+    public String cartDisplay(Model model) {
+        String displayusername, displaypassword, displayemail, displayaddress;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce", "root", "");
+            PreparedStatement stmt = con.prepareStatement("select * from users where username = ?" + ";");
+
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            stmt.setString(1, username);
+
+            ResultSet rst = stmt.executeQuery();
+
+            if (rst.next()) {
+                int userid = rst.getInt(1);
+                displayusername = rst.getString(2);
+                displayemail = rst.getString(3);
+                displaypassword = rst.getString(4);
+                displayaddress = rst.getString(5);
+                model.addAttribute("userid", userid);
+                model.addAttribute("username", displayusername);
+                model.addAttribute("email", displayemail);
+                model.addAttribute("password", displaypassword);
+                model.addAttribute("address", displayaddress);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception:" + e);
+        }
+        System.out.println("Hello");
+        return "updateProfile";
     }
 
 }
