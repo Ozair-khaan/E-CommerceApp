@@ -130,13 +130,13 @@ public class UserController {
     @GetMapping("/test")
     public String Test(Model model) {
         System.out.println("test page");
-        model.addAttribute("author", "jay gajera");
-        model.addAttribute("id", 40);
+        model.addAttribute("author", "Ozair Khan");
+        model.addAttribute("id", 555);
 
         List<String> friends = new ArrayList<String>();
         model.addAttribute("f", friends);
-        friends.add("xyz");
-        friends.add("abc");
+        friends.add("Value1");
+        friends.add("Value2");
 
         return "test";
     }
@@ -164,7 +164,7 @@ public class UserController {
 
     @GetMapping("cartDisplay")
     public Object showCart(Model model, HttpSession session) {
-        ModelAndView mmView = new ModelAndView("cart");
+        ModelAndView mmView = new ModelAndView("cartproduct");
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByUsername(username);
 
@@ -178,5 +178,21 @@ public class UserController {
             model.addAttribute("msg", "User not found");
         }
         return mmView;
+    }
+
+    @GetMapping("/addtocart")
+    public String addProductToCart(@RequestParam("id") int productId, HttpSession session) {
+        // Retrieve the logged-in user's ID from session
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            // User is not logged in, so redirect to the login page.
+            return "redirect:/login";
+        }
+        // Call your service to add the product to the user's cart.
+        // (Ensure that your cartService has an appropriate method, e.g., addToCart)
+        cartService.addToCart(userId, productId);
+
+        // Redirect to the cart display page after adding the product.
+        return "redirect:/cartDisplay";
     }
 }

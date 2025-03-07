@@ -63,9 +63,9 @@
 
 					<%
 					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
+						String url = "jdbc:mysql://localhost:3306/ecommerce";
 						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection con = DriverManager.getConnection(url, "root", "");
+						Connection con = DriverManager.getConnection(url, "root", "Sql@2024");
 						Statement stmt = con.createStatement();
 						Statement stmt2 = con.createStatement();
 						ResultSet rs = stmt.executeQuery("select * from cart");

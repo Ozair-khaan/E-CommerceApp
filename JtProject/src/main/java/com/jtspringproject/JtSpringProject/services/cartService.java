@@ -50,4 +50,9 @@ public class cartService {
         return cartDao.getCarts();
     }
 
+    public void addToCart(int userId, int productId) {
+        // Delegate the actual persistence logic to the DAO
+        cartDao.addToCart(userId, productId);
+    }
+
 }
