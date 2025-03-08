@@ -148,8 +148,8 @@ public class UserController {
         System.out.println("test page");
         //create modelandview object
         ModelAndView mv = new ModelAndView();
-        mv.addObject("name", "jay gajera 17");
-        mv.addObject("id", 40);
+        mv.addObject("name", "Ozair Khan");
+        mv.addObject("id", 555);
         mv.setViewName("test2");
 
         List<Integer> list = new ArrayList<Integer>();
@@ -180,19 +180,5 @@ public class UserController {
         return mmView;
     }
 
-    @GetMapping("/addtocart")
-    public String addProductToCart(@RequestParam("id") int productId, HttpSession session) {
-        // Retrieve the logged-in user's ID from session
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            // User is not logged in, so redirect to the login page.
-            return "redirect:/login";
-        }
-        // Call your service to add the product to the user's cart.
-        // (Ensure that your cartService has an appropriate method, e.g., addToCart)
-        cartService.addToCart(userId, productId);
 
-        // Redirect to the cart display page after adding the product.
-        return "redirect:/cartDisplay";
-    }
 }
