@@ -156,6 +156,10 @@
         </div>
 
         <button type="submit" class="btn btn-custom btn-block">Login</button>
+        <!-- <button type="submit" class="btn btn-custom btn-block">Go to User Login</button> -->
+        <button type="button" class="btn btn-custom btn-block" onclick="window.location.href='/login';">
+            &#128100; Go to User Login
+          </button>
         <h5 class="text-danger mt-3 error-message">${msg}</h5>
     </form>
 </div>

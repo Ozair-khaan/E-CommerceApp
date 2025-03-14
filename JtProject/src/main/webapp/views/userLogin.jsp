@@ -152,6 +152,9 @@
         <p>Don't have an account? <a href="/register" style="color: #fff; text-decoration: underline;">Register here</a></p>
 
         <button type="submit" class="btn btn-custom btn-block">Login</button>
+        <button type="button" class="btn btn-custom btn-block " onclick="window.location.href='/admin/login';">
+            &#9881; Go to Admin Login
+          </button>
     </form>
 </div>
 
