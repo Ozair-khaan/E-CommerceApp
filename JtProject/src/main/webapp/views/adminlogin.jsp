@@ -1,17 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Admin Login - SnapKart</title>
 
-   
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
 
     <style>
-       
+
         body {
             background: linear-gradient(135deg, #2c3e50, #34495e);
             height: 100vh;
@@ -23,13 +28,13 @@
             color: #ffffff;
         }
 
-       
+
         .dark-mode {
             background: linear-gradient(135deg, #121212, #1e1e1e) !important;
             color: white;
         }
 
-       
+
         .login-container {
             width: 400px;
             padding: 25px;
@@ -51,7 +56,7 @@
             margin-bottom: 15px;
         }
 
-        
+
         .form-control {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -68,7 +73,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        
+
         .input-group-text {
             background-color: #ff9900;
             color: white;
@@ -79,7 +84,7 @@
             background-color: #ff7700;
         }
 
-       
+
         .btn-custom {
             background: #ff9900;
             border: none;
@@ -94,7 +99,7 @@
             transform: scale(1.05);
         }
 
-        
+
         .toggle-mode {
             position: absolute;
             top: 15px;
@@ -104,7 +109,7 @@
             transition: 0.3s;
         }
 
-       
+
         .password-toggle {
             cursor: pointer;
             position: absolute;
@@ -117,81 +122,115 @@
             color: #ddd;
         }
 
-        
+
         .error-message {
             display: ${not empty msg ? 'block' : 'none'};
         }
+
+        .btn-redirect {
+        background-color: ff7700; /* Orange-red background */
+        border: 1px solid #ff7700;
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-redirect:hover {
+        background-color: #c57c3c; /* Darker shade on hover */
+        border-color: #c57c3c;
+        color: #fff;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
+    <i class="fa-solid fa-moon toggle-mode" id="toggleDarkMode"></i>
 
+    <div class="login-container">
+      <h2>Admin Login</h2>
+      <p>Secure Access to SnapKart</p>
 
-<i class="fa-solid fa-moon toggle-mode" id="toggleDarkMode"></i>
-
-<div class="login-container">
-    <h2>Admin Login</h2>
-    <p>Secure Access to SnapKart</p>
-
-    <form action="/admin/loginvalidate" method="post">
+      <form action="/admin/loginvalidate" method="post">
         <div class="form-group">
-            <label for="username">Admin Username:</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                </div>
-                <input type="text" name="username" id="username" required placeholder="Enter Username" class="form-control form-control-lg">
+          <label for="username">Admin Username:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              required
+              placeholder="Enter Username"
+              class="form-control form-control-lg"
+            />
+          </div>
         </div>
 
         <div class="form-group position-relative">
-            <label for="password">Admin Password:</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                </div>
-                <input type="password" name="password" id="password" required placeholder="Enter Password" class="form-control form-control-lg">
-                <i class="fa fa-eye password-toggle" id="togglePassword"></i>
+          <label for="password">Admin Password:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              placeholder="Enter Password"
+              class="form-control form-control-lg"
+            />
+            <i class="fa fa-eye password-toggle" id="togglePassword"></i>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-custom btn-block">Login</button>
         <!-- <button type="submit" class="btn btn-custom btn-block">Go to User Login</button> -->
-        <button type="button" class="btn btn-custom btn-block" onclick="window.location.href='/login';">
-            &#128100; Go to User Login
-          </button>
+        <button
+          type="button"
+          class="btn btn-redirect btn-block"
+          onclick="window.location.href='/login';"
+        >
+          &#128100; Go to User Login
+        </button>
         <h5 class="text-danger mt-3 error-message">${msg}</h5>
-    </form>
-</div>
+      </form>
+    </div>
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-<script>
-   
-    $(document).ready(function () {
+    <script>
+      $(document).ready(function () {
         if (localStorage.getItem("darkMode") === "enabled") {
-            $("body").addClass("dark-mode");
-            $("#toggleDarkMode").addClass("fa-sun");
+          $("body").addClass("dark-mode");
+          $("#toggleDarkMode").addClass("fa-sun");
         }
-    });
+      });
 
-    $("#toggleDarkMode").click(function () {
+      $("#toggleDarkMode").click(function () {
         $("body").toggleClass("dark-mode");
         $(this).toggleClass("fa-sun fa-moon");
-        localStorage.setItem("darkMode", $("body").hasClass("dark-mode") ? "enabled" : "disabled");
-    });
+        localStorage.setItem(
+          "darkMode",
+          $("body").hasClass("dark-mode") ? "enabled" : "disabled"
+        );
+      });
 
-   
-    $("#togglePassword").click(function () {
+      $("#togglePassword").click(function () {
         let passwordField = $("#password");
-        let type = passwordField.attr("type") === "password" ? "text" : "password";
+        let type =
+          passwordField.attr("type") === "password" ? "text" : "password";
         passwordField.attr("type", type);
         $(this).toggleClass("fa-eye fa-eye-slash");
-    });
-</script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>
