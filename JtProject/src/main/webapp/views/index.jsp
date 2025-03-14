@@ -83,7 +83,7 @@
   <main>
 
     <div class="container">
-      <h1>Welcome to Perishable Shop</h1>
+      <h1>Welcome to SnapKart</h1>
 
 
       <div class="row">
@@ -106,7 +106,7 @@
   </main>
   <footer>
     <div class="container">
-      <p>&copy; 2025 Perishable Shop. All rights reserved
+      <p>&copy; 2025 SnapKart. All rights reserved
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

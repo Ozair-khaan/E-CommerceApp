@@ -24,7 +24,7 @@ public class CartController {
         }
 
         cartService.addToCart(userId, productId);
-        
+
         return "redirect:/cartDisplay";
     }
 
