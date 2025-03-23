@@ -1,15 +1,18 @@
 package com.jtspringproject.JtSpringProject.controller;
 
 import com.jtspringproject.JtSpringProject.models.Cart;
+import com.jtspringproject.JtSpringProject.models.CartProduct;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.jtspringproject.JtSpringProject.repo.UserRepository;
 import com.jtspringproject.JtSpringProject.services.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +30,9 @@ public class UserController {
     private final userService userService;
     private final productService productService;
     private final cartService cartService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public UserController(userService userService, productService productService, cartService cartService) {
@@ -162,22 +168,61 @@ public class UserController {
     }
 
 
-    @GetMapping("cartDisplay")
-    public Object showCart(Model model, HttpSession session) {
-        ModelAndView mmView = new ModelAndView("cartproduct");
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.getUserByUsername(username);
+//    @GetMapping("cartDisplay")
+//    public Object showCart(Model model, HttpSession session) {
+//        ModelAndView mmView = new ModelAndView("cartproduct");
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userService.getUserByUsername(username);
+//
+//        if (user != null) {
+//            model.addAttribute("userid", user.getId());
+//            model.addAttribute("username", user.getUsername());
+//            model.addAttribute("email", user.getEmail());
+//            model.addAttribute("password", user.getPassword());
+//            model.addAttribute("address", user.getAddress());
+//        } else {
+//            model.addAttribute("msg", "User not found");
+//        }
+//        return mmView;
+//    }
 
-        if (user != null) {
-            model.addAttribute("userid", user.getId());
-            model.addAttribute("username", user.getUsername());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("password", user.getPassword());
-            model.addAttribute("address", user.getAddress());
-        } else {
-            model.addAttribute("msg", "User not found");
+    //cart controller method adding here
+
+    @GetMapping("/addtocart")
+    public String addToCart(@RequestParam("id") int productId,
+                            Principal principal) {
+        // 1) Get the currently logged-in user. This depends on your security setup.
+        if (principal == null) {
+            // If not logged in, redirect to login or show error
+            return "redirect:/login";
         }
-        return mmView;
+
+        // Typically, 'principal.getName()' is the username
+        User currentUser = userRepository.findByUsername(principal.getName());
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        // 2) Add the product to the cart
+        cartService.addToCart(productId, currentUser);
+
+        // 3) Redirect back to product page or to a cart page
+       // return "redirect:/productDisplay"; // Or wherever your product list is
+        return "redirect:/cartDisplay";
+    }
+
+    // Display the cart //duplicate entry method, same method is on above in same ctrlr
+    @GetMapping("/cartDisplay")
+    public String cartDisplay(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        User currentUser = userRepository.findByUsername(principal.getName());
+
+        List<CartProduct> cartItems = cartService.getCartProducts(currentUser);
+        model.addAttribute("cartItems", cartItems);
+
+        return "cartDisplay"; // name of your JSP/Thymeleaf template
     }
 
 

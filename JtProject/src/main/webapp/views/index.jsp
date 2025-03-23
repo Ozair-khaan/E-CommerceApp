@@ -40,7 +40,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <!-- <a class="nav-link" th:href="@{/}" href="/cart">CART</a> -->
-                    <a class="nav-link" href="cartDisplay">CART</a>
+                    <a class="nav-link" href="/cartDisplay">CART</a>
                 </li>
                  <li class="nav-item active">
                     <a class="nav-link" href="profileDisplay" >Profile</a>

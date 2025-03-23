@@ -14,7 +14,7 @@ public class CartController {
     @Autowired
     private cartService cartService;
 
-    @GetMapping("/addtocart")
+    @GetMapping("/addtocart1") //not in use
     public String addProductToCart(@RequestParam("id") int productId, HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute("userId");
