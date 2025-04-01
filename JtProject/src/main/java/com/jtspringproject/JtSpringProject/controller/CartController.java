@@ -23,7 +23,7 @@ public class CartController {
             return "redirect:/login";
         }
 
-        cartService.addToCart(userId, productId);
+        //cartService.addToCart(userId, productId);
 
         return "redirect:/cartDisplay";
     }

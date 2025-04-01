@@ -42,9 +42,11 @@ public class CartProduct {
     public CartProduct() {
         product = null;
     }
+
     public CartProduct(Cart cart, Product product) {
         this.cart=cart;
         this.product = product;
+        this.quantity=1;
     }
 
     public int getId() {
