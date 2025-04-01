@@ -1,55 +1,71 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Your Shopping Cart</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-        th { background-color: #f4f4f4; }
-        h1 { text-align: center; }
-    </style>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Your Shopping Cart</h1>
-    <!-- Check if the cart is empty -->
-    <c:if test="${empty cartItems}">
-        <p style="text-align:center;">Your cart is empty!</p>
-    </c:if>
+    <!-- Navigation Bar (for consistency) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SnapKart</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="products.jsp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cartDisplay1">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profileDisplay">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Display cart items if available -->
-    <c:if test="${not empty cartItems}">
-        <table>
+    <!-- Cart Content -->
+    <div class="container mt-4">
+        <h2>Shopping Cart</h2>
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
+                    <th>Image</th>
+                    <th>Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items="${cartItems}">
-                    <tr>
-                        <td>${item.productId}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.price}</td>
-                        <td>${item.quantity * item.price}</td>
-                    </tr>
-                </c:forEach>
+                <%
+                    // Retrieve cart items from session
+                    List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+                    if (cartItems != null && !cartItems.isEmpty()) {
+                        for (Map<String, Object> item : cartItems) {
+                %>
+                            <tr>
+                                <td><img src="<%= item.get("image") %>" width="50" height="50" alt="Product Image"/></td>
+                                <td><%= item.get("name") %></td>
+                                <td><%= item.get("quantity") %></td>
+                                <td>$<%= item.get("price") %></td>
+                            </tr>
+                <%
+                        }
+                    } else {
+                %>
+                        <tr>
+                            <td colspan="4">Your cart is empty.</td>
+                        </tr>
+                <%
+                    }
+                %>
             </tbody>
         </table>
-    </c:if>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

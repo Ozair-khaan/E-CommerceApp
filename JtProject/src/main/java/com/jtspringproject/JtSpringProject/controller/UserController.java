@@ -7,12 +7,16 @@ import com.jtspringproject.JtSpringProject.models.User;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.jtspringproject.JtSpringProject.repo.UserRepository;
 import com.jtspringproject.JtSpringProject.services.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -186,7 +190,7 @@ public class UserController {
 
     //cart controller method adding here
 
-    @GetMapping("/addtocart")
+    @GetMapping("/addtocartNotInUsed")//it was used for to add the product in cart on same jsp
     public String addToCart(@RequestParam("id") int productId,
                             Principal principal) {
         // 1) Get the currently logged-in user. This depends on your security setup.
@@ -222,6 +226,61 @@ public class UserController {
 
         return "cartDisplay"; // name of your JSP/Thymeleaf template
     }
+
+
+
+    @PostMapping("/addToCart")
+    public ResponseEntity<String> addToCart(@RequestBody Map<String, Object> newProduct, HttpSession session) {
+        // Retrieve current cart from session (if exists)
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
+        }
+
+        boolean productExists = false;
+        // Check if product already exists in cart by comparing product name
+        for (Map<String, Object> item : cartItems) {
+            if (item.get("name").equals(newProduct.get("name"))) {
+                // Update quantity and price
+                int currentQuantity = ((Number) item.get("quantity")).intValue();
+                int additionalQuantity = ((Number) newProduct.get("quantity")).intValue();
+                int newQuantity = currentQuantity + additionalQuantity;
+                item.put("quantity", newQuantity);
+                double unitPrice = ((Number) newProduct.get("price")).doubleValue();
+                item.put("price", unitPrice * newQuantity);
+                productExists = true;
+                break;
+            }
+        }
+        // If product does not exist in cart, add it
+        if (!productExists) {
+            cartItems.add(newProduct);
+        }
+
+        // Update session attribute with the merged cart list
+        session.setAttribute("cartItems", cartItems);
+        return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/cartDisplay1") //this method is called while clicking on cart button to view the product added in cart
+    public String cartDisplay(Model model, HttpSession session) {
+        // Retrieve cart items from session
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+
+        // If no cart items exist in session, initialize an empty list
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
+        }
+
+        // Add cart items to the model to be used in the view
+        model.addAttribute("cartItems", cartItems);
+
+        // Return the view name that maps to cart.jsp
+        return "cart";
+    }
+
+
+
 
 
 }

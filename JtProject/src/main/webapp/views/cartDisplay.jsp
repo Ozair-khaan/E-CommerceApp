@@ -20,4 +20,6 @@ import="java.util.List" %>
       </c:forEach>
     </table>
   </body>
+
+  <script></script>
 </html>
