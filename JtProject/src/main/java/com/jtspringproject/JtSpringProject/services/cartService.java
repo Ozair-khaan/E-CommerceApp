@@ -37,14 +37,6 @@ public class cartService {
         return cartDao.addCart(cart);
     }
 
-    //    public Cart getCart(int id)
-//    {
-//        return cartDao.getCart(id);
-//    }
-//    public List<Cart> getCarts() {
-//        return this.cartDao.getCarts();
-//    }
-
     public void updateCart(Cart cart) {
         cartDao.updateCart(cart);
     }
@@ -52,13 +44,6 @@ public class cartService {
     public void deleteCart(Cart cart) {
         cartDao.deleteCart(cart);
     }
-
-    //    pubiic List<Cart> getCartByUserId(int customer_id){
-//        return cartDao.getCartsByCustomerID(customer_id);
-//    }
-//    public Cart getCartProducts(int custId) {
-//        return cartDao.getCartByCustomerId(custId);
-//    }
 
     @Transactional
     public Cart getCartByCustomerId(int customerId) {
@@ -69,11 +54,6 @@ public class cartService {
     public List<Cart> getAllCarts() {
         return cartDao.getCarts();
     }
-
-//    public void addToCart(int userId, int productId) {
-//        // Delegate the actual persistence logic to the DAO
-//        cartDao.addToCart(userId, productId);
-//    }
 
 
     //with using newly created repo operation
@@ -87,7 +67,7 @@ public class cartService {
             cart.setCustomer(currentUser);
             cart = cartRepository.save(cart);
             System.out.println("Created new cart for user: " + currentUser.getUsername());
-        }else {
+        } else {
             System.out.println("Found existing cart with ID: " + cart.getId());
         }
 
@@ -105,10 +85,7 @@ public class cartService {
             cartProductRepository.save(cartProduct);
             System.out.println("Added new product to cart: " + product.getName());
         }
-        // 3) Create and save a CartProduct entry
-        //    (If you want to avoid duplicates, see the note below.)
-//        CartProduct cartProduct = new CartProduct(cart, product);
-//        cartProductRepository.save(cartProduct);
+
     }
 
 
@@ -148,18 +125,11 @@ public class cartService {
         }
     }
 
-    // Optionally: a method to retrieve cart items for display
     public List<CartProduct> getCartProducts(User currentUser) {
         Cart cart = cartRepository.findByCustomer_Id(currentUser.getId());
         if (cart == null) {
             return Collections.emptyList();
         }
-        // Return all cart products for that cart
-//        return cartProductRepository
-//                .findAll()
-//                .stream()
-//                .filter(cp -> cp.getCart().getId() == cart.getId())
-//                .collect(Collectors.toList());
         return cartProductRepository.findByCart(cart);
     }
 

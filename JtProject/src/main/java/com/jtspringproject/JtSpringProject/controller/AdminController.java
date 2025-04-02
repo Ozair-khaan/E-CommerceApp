@@ -255,36 +255,4 @@ public class AdminController {
         return "redirect:index";
     }
 
-//    @GetMapping("/cart")
-//    public String viewCart() {
-//        ModelAndView mView = new ModelAndView("cart");
-//        List<Cart> cart = this.cartService.getCartProducts()
-//        mView.addObject("customers", users);
-//        return "";
-//    }
-
-    // Endpoint for administrators to view all carts
-    @GetMapping("/admin/carts")
-    public String showAllCarts(Model model) {
-
-        model.addAttribute("carts", cartService.getAllCarts());
-        return "carts"; // maps to carts.jsp (or another view technology)
-    }
-
-    // Endpoint for a customer to view their own cart
-    @GetMapping("cartDisplay")
-    public Object showCart(Model model, HttpSession session) {
-        ModelAndView mmView = new ModelAndView("cartproduct");
-        // Retrieve the logged-in customer's ID from session
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            // If the user is not logged in, redirect them to the login page
-            return "redirect:/login";
-        }
-        Cart cart = cartService.getCartByCustomerId(userId);
-        model.addAttribute("cart", cart);
-        mmView.addObject("customers",cart);
-        return mmView; // maps to cart.jsp which displays the cart details
-    }
-
 }

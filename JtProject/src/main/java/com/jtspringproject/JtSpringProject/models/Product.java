@@ -18,7 +18,8 @@ public class Product {
 	private int id;
 	
 	private String name;
-	
+
+	@Column(length = 15000)
 	private String image;
 	
 	@OneToOne(cascade = CascadeType.ALL)

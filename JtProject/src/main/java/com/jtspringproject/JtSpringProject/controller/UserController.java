@@ -1,10 +1,8 @@
 package com.jtspringproject.JtSpringProject.controller;
 
-import com.jtspringproject.JtSpringProject.models.CartProduct;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -167,23 +165,6 @@ public class UserController {
         return mv;
     }
 
-
-    // Display the cart //duplicate entry method, same method is on above in same ctrlr
-    @GetMapping("/cartDisplay")
-    public String cartDisplay(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-        User currentUser = userRepository.findByUsername(principal.getName());
-
-        List<CartProduct> cartItems = cartService.getCartProducts(currentUser);
-        model.addAttribute("cartItems", cartItems);
-
-        return "cartDisplay"; // name of your JSP/Thymeleaf template
-    }
-
-
-
     @PostMapping("/addToCart")
     public ResponseEntity<String> addToCart(@RequestBody Map<String, Object> newProduct, HttpSession session) {
         // Retrieve current cart from session (if exists)
@@ -193,10 +174,10 @@ public class UserController {
         }
 
         boolean productExists = false;
-        // Check if product already exists in cart by comparing product name
+
         for (Map<String, Object> item : cartItems) {
             if (item.get("name").equals(newProduct.get("name"))) {
-                // Update quantity and price
+
                 int currentQuantity = ((Number) item.get("quantity")).intValue();
                 int additionalQuantity = ((Number) newProduct.get("quantity")).intValue();
                 int newQuantity = currentQuantity + additionalQuantity;
@@ -207,35 +188,24 @@ public class UserController {
                 break;
             }
         }
-        // If product does not exist in cart, add it
+
         if (!productExists) {
             cartItems.add(newProduct);
         }
 
-        // Update session attribute with the merged cart list
         session.setAttribute("cartItems", cartItems);
         return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
     }
 
-    @GetMapping("showCart") //this method is called while clicking on cart button to view the product added in cart
-    public String cartDisplay(Model model, HttpSession session) {
-        // Retrieve cart items from session
+    @GetMapping("showCart")
+    public String showCart(Model model, HttpSession session) {
+
         List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
 
-        // If no cart items exist in session, initialize an empty list
         if (cartItems == null) {
             cartItems = new ArrayList<>();
         }
-
-        // Add cart items to the model to be used in the view
         model.addAttribute("cartItems", cartItems);
-
-        // Return the view name that maps to cart.jsp
         return "cart";
     }
-
-
-
-
-
 }

@@ -32,11 +32,6 @@ public class cartDao {
         return cart;
     }
 
-//    @Transactional
-//    public List<Cart> getCarts() {
-//        return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
-//    }
-
     @Transactional
     public List<Cart> getCarts() {
         // Query using the entity name "CART" defined in your Cart entity
@@ -52,15 +47,6 @@ public class cartDao {
                 .setParameter("customerId", customerId)
                 .uniqueResult();
     }
-
-//    @Transactional
-//    public List<Cart> getCartsByCustomerID(Integer customer_id) {
-//        String hql = "from CART where CART.customer_id = :customer_id";
-//        return this.sessionFactory.getCurrentSession()
-//                .createQuery(hql, Cart.class)
-//                .setParameter("customer_id", customer_id)
-//                .list();
-//    }
 
     @Transactional
     public void updateCart(Cart cart) {
