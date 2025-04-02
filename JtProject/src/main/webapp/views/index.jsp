@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <title>Products - SnapKart</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <!-- Include jQuery -->
+    <!-- Include jQuery (only once) -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
-        /* Optional: Add any custom styling here */
         body.dark-mode {
             background-color: #121212;
             color: #ffffff;
@@ -32,6 +31,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <!-- Updated the Cart link to point to the cart page -->
                     <li class="nav-item"><a class="nav-link" href="/cartDisplay1">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="profileDisplay">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
@@ -73,29 +73,21 @@
             document.body.classList.toggle('dark-mode');
         });
 
-        // Array to hold cart items on the client side.
-        let cartItems = [];
-
         function addToCart(productImage, productName, productPrice) {
-            // Check if the product already exists in the cart
-            let existingItem = cartItems.find(item => item.name === productName);
-            if (existingItem) {
-                existingItem.quantity++;
-                existingItem.price = Number(productPrice) * existingItem.quantity;
-            } else {
-                cartItems.push({
-                    image: productImage,
-                    name: productName,
-                    quantity: 1,
-                    price: Number(productPrice)
-                });
-            }
-            // Send the updated cart to the server via AJAX.
+            // Create a new product object
+            var newProduct = {
+                image: productImage,
+                name: productName,
+                quantity: 1,
+                price: Number(productPrice)
+            };
+
+            // Send the new product to the server via AJAX.
             $.ajax({
                 url: '<c:url value="/addToCart"/>',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(cartItems),
+                data: JSON.stringify(newProduct),
                 success: function(response) {
                     console.log('Cart updated successfully:', response);
                 },
@@ -106,7 +98,7 @@
         }
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <!-- Include Popper and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>

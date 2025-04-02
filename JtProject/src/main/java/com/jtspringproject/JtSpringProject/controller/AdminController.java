@@ -287,38 +287,4 @@ public class AdminController {
         return mmView; // maps to cart.jsp which displays the cart details
     }
 
-    //1 march
-    @GetMapping("cartDisplayy")
-    @ResponseBody
-    public String cartDisplay(Model model) {
-        String displayusername, displaypassword, displayemail, displayaddress;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce", "root", "");
-            PreparedStatement stmt = con.prepareStatement("select * from users where username = ?" + ";");
-
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            stmt.setString(1, username);
-
-            ResultSet rst = stmt.executeQuery();
-
-            if (rst.next()) {
-                int userid = rst.getInt(1);
-                displayusername = rst.getString(2);
-                displayemail = rst.getString(3);
-                displaypassword = rst.getString(4);
-                displayaddress = rst.getString(5);
-                model.addAttribute("userid", userid);
-                model.addAttribute("username", displayusername);
-                model.addAttribute("email", displayemail);
-                model.addAttribute("password", displaypassword);
-                model.addAttribute("address", displayaddress);
-            }
-        } catch (Exception e) {
-            System.out.println("Exception:" + e);
-        }
-        System.out.println("Hello");
-        return "updateProfile";
-    }
-
 }

@@ -262,7 +262,7 @@ public class UserController {
         return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/cartDisplay1") //this method is called while clicking on cart button to view the product added in cart
+    @GetMapping("/showCart") //this method is called while clicking on cart button to view the product added in cart
     public String cartDisplay(Model model, HttpSession session) {
         // Retrieve cart items from session
         List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
