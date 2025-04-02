@@ -32,7 +32,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <!-- Updated the Cart link to point to the cart page -->
-                    <li class="nav-item"><a class="nav-link" href="/cartDisplay1">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="showCart">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="profileDisplay">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
                     <li class="nav-item">

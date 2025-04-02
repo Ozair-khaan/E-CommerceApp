@@ -17,8 +17,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="products.jsp">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cartDisplay1">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="showCart">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="profileDisplay">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
                 </ul>

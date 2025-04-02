@@ -93,7 +93,7 @@ public class UserController {
         return mView;
     }
 
-    @RequestMapping(value = "newuserregister", method = RequestMethod.POST)
+    @RequestMapping(value = "newUserRegister", method = RequestMethod.POST)
     public ModelAndView newUseRegister(@ModelAttribute User user) {
         // Check if username already exists in database
         boolean exists = this.userService.checkUserExists(user.getUsername());
@@ -165,53 +165,8 @@ public class UserController {
         list.add(25);
         mv.addObject("marks", list);
         return mv;
-
-
     }
 
-
-//    @GetMapping("cartDisplay")
-//    public Object showCart(Model model, HttpSession session) {
-//        ModelAndView mmView = new ModelAndView("cartproduct");
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        User user = userService.getUserByUsername(username);
-//
-//        if (user != null) {
-//            model.addAttribute("userid", user.getId());
-//            model.addAttribute("username", user.getUsername());
-//            model.addAttribute("email", user.getEmail());
-//            model.addAttribute("password", user.getPassword());
-//            model.addAttribute("address", user.getAddress());
-//        } else {
-//            model.addAttribute("msg", "User not found");
-//        }
-//        return mmView;
-//    }
-
-    //cart controller method adding here
-
-    @GetMapping("/addtocartNotInUsed")//it was used for to add the product in cart on same jsp
-    public String addToCart(@RequestParam("id") int productId,
-                            Principal principal) {
-        // 1) Get the currently logged-in user. This depends on your security setup.
-        if (principal == null) {
-            // If not logged in, redirect to login or show error
-            return "redirect:/login";
-        }
-
-        // Typically, 'principal.getName()' is the username
-        User currentUser = userRepository.findByUsername(principal.getName());
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
-
-        // 2) Add the product to the cart
-        cartService.addToCart(productId, currentUser);
-
-        // 3) Redirect back to product page or to a cart page
-       // return "redirect:/productDisplay"; // Or wherever your product list is
-        return "redirect:/cartDisplay";
-    }
 
     // Display the cart //duplicate entry method, same method is on above in same ctrlr
     @GetMapping("/cartDisplay")
@@ -262,7 +217,7 @@ public class UserController {
         return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/showCart") //this method is called while clicking on cart button to view the product added in cart
+    @GetMapping("showCart") //this method is called while clicking on cart button to view the product added in cart
     public String cartDisplay(Model model, HttpSession session) {
         // Retrieve cart items from session
         List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
