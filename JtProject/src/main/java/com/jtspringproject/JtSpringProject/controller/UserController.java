@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jtspringproject.JtSpringProject.repo.UserRepository;
+import com.jtspringproject.JtSpringProject.services.PurchaseService;
 import com.jtspringproject.JtSpringProject.services.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PurchaseService purchaseService;
 
     @Autowired
     public UserController(userService userService, productService productService, cartService cartService) {
@@ -207,5 +211,63 @@ public class UserController {
         }
         model.addAttribute("cartItems", cartItems);
         return "cart";
+    }
+
+    //purchase functionality code
+//    @PostMapping
+//    public String processPurchase(HttpSession session) {
+//        // Retrieve cart items from session
+//        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+//
+//        if (cartItems == null || cartItems.isEmpty()) {
+//            // Redirect to cart page with an error message if the cart is empty
+//            return "redirect:/showCart?error=empty";
+//        }
+//
+//        // Call the business logic to process the purchase
+//        boolean purchaseSuccessful = purchaseService.processPurchase(cartItems);
+//
+//        if (purchaseSuccessful) {
+//            // Clear the cart after successful purchase
+//            session.removeAttribute("cartItems");
+//            // Redirect to a confirmation page
+//            return "redirect:/purchaseConfirmation";
+//        } else {
+//            // Redirect to cart page with an error message if purchase fails
+//            return "redirect:/showCart?error=purchaseFailed";
+//        }
+//    }
+
+    @PostMapping("/purchase")
+    public String purchase(HttpSession session, Model model) {
+        // Retrieve cart items from session
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+
+        if (cartItems == null || cartItems.isEmpty()) {
+            model.addAttribute("message", "Your cart is empty. Nothing to purchase.");
+            return "purchaseConfirmation";
+        }
+
+        double totalAmount = 0.0;
+
+        // Ensure price consistency and calculate total amount
+        for (Map<String, Object> item : cartItems) {
+            Object priceObj = item.get("price");
+            double price = (priceObj instanceof Integer) ? ((Integer) priceObj).doubleValue() : (double) priceObj;
+
+            item.put("price", price); // Ensure price is always Double
+            int quantity = (int) item.get("quantity");
+            totalAmount += price * quantity;
+        }
+
+        // Store purchased items in request scope
+        model.addAttribute("purchasedItems", cartItems);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("message", "Thank you for your purchase! Your order has been successfully processed.");
+
+        // Clear the cart after purchase
+        session.removeAttribute("cartItems");
+
+        return "purchaseConfirmation"; // Redirect to purchase confirmation page
     }
 }

@@ -68,51 +68,61 @@
       border-color: #ff9900;
       color: #fff !important;
     }
+    .snapkart-logo {
+      font-size: 2rem;
+      margin-right: 10px;
+      color: #ffc107;  /* Bootstrap warning color */
+    }
+    .snapkart-text {
+    font-weight: bold; /* or normal */
+    font-size: 1.5rem;
+    color: #ffc107;
+    }
+    .navbar-nav .nav-link {
+    font-size: 1rem; /* Change this value as needed */
+    }
+
   </style>
 </head>
 <body>
   <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <!-- Left Side: SnapKart Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <i class="fas fa-shopping-cart text-warning" style="font-size: 2rem; margin-right: 10px;"></i>
-            <span class="fw-bold text-warning" style="font-size: 1.5rem;">SnapKart</span>
-        </a>
-        
-
-        <div class="mx-auto">
-            <span class="nav-link text-light fw-bold" style="font-size: 1.3rem;">
-                Welcome, <span class="text-warning">${ username }</span>
-            </span>
-        </div>
-
-        <div>
-            <ul class="navbar-nav d-flex flex-row align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#" style="font-size: 1.2rem;">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="showCart" style="font-size: 1.2rem;">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="profileDisplay" style="font-size: 1.2rem;">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="logout" style="font-size: 1.2rem;">Logout</a>
-                </li>
-                <!-- Dark Mode Toggle -->
-                <li class="nav-item ms-3">
-                    <button class="btn btn-warning btn-sm" id="toggleMode" style="font-size: 1rem; padding: 5px 10px;">
-                        Dark Mode
-                    </button>
-                </li>
-            </ul>
-        </div>
+      <!-- Left Side: SnapKart Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <i class="fas fa-shopping-cart snapkart-logo"></i>
+        <span class="snapkart-text">SnapKart</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Right Side: Navigation Links & Dark Mode Button -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="showCart">
+              <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="profileDisplay">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="logout">Logout</a>
+          </li>
+          <li class="nav-item ms-3">
+            <button class="btn btn-warning btn-sm" id="toggleMode" style="font-size: 1rem; padding: 5px 10px;">
+              Dark Mode
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
+  
 
   
   <!-- Main Content -->
@@ -127,7 +137,7 @@
             <div class="card-body">
               <h4 class="card-title">${product.name}</h4>
               <p class="card-text">${product.description}</p>
-              <p class="card-text">$${product.price}</p>
+              <p class="card-text">$ ${product.price}</p>
               <!-- Button triggers addToCart() -->
               <button class="btn btn-primary" onclick="addToCart('${product.image}', '${product.name}', '${product.price}')">
                 Add to Cart
@@ -138,6 +148,23 @@
       </c:forEach>
     </div>
   </div>
+
+  <!-- Bootstrap Toast Notification -->
+<div aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+  <div class="toast" id="cart-toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="fas fa-check-circle text-success mr-2"></i>
+      <strong class="mr-auto">SnapKart</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body" id="toast-body">
+      Item has been added to the cart!
+    </div>
+  </div>
+</div>
+
   
   <script>
     // Toggle dark mode
@@ -146,28 +173,38 @@
     });
     
     function addToCart(productImage, productName, productPrice) {
-      // Create a new product object
-      var newProduct = {
-        image: productImage,
-        name: productName,
-        quantity: 1,
-        price: Number(productPrice)
-      };
-      
-      // Send the new product to the server via AJAX.
-      $.ajax({
-        url: '<c:url value="/addToCart"/>',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(newProduct),
-        success: function(response) {
-          console.log('Cart updated successfully:', response);
-        },
-        error: function(xhr, status, error) {
-          console.error('Error updating cart:', error);
-        }
-      });
+  // Create a new product object
+  var newProduct = {
+    image: productImage,
+    name: productName,
+    quantity: 1,
+    price: Number(productPrice)
+  };
+
+  // Send the new product to the server via AJAX.
+  $.ajax({
+    url: '<c:url value="/addToCart"/>',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(newProduct),
+    success: function(response) {
+      console.log('Cart updated successfully:', response);
+
+      // Show toast notification
+      showToast(productName);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error updating cart:', error);
     }
+  });
+}
+
+// Function to show the toast notification
+function showToast(productName) {
+  $('#toast-body').text(productName + " has been added to the cart!");
+  $('#cart-toast').toast({ delay: 3000 }); // Show for 3 seconds
+  $('#cart-toast').toast('show');
+}
   </script>
   
   <!-- Include Popper and Bootstrap JS -->
