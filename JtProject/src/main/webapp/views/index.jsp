@@ -81,6 +81,10 @@
     .navbar-nav .nav-link {
     font-size: 1rem; /* Change this value as needed */
     }
+    .navbar {
+    z-index: 1050; /* Ensure navbar is on top */
+    position: relative;
+    }
 
   </style>
 </head>
@@ -110,8 +114,11 @@
           <li class="nav-item">
             <a class="nav-link px-3" href="profileDisplay">Profile</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link px-3" href="logout">Logout</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link px-3 logout-link" href="logout">Logout</a>
           </li>
           <li class="nav-item ms-3">
             <button class="btn btn-warning btn-sm" id="toggleMode" style="font-size: 1rem; padding: 5px 10px;">
@@ -167,6 +174,17 @@
 
   
   <script>
+    $(document).ready(function () {
+    $('.nav-link').click(function () {
+        $('.navbar-collapse').collapse('hide'); // Close navbar on click
+    });
+    });
+    $(document).ready(function () {
+    $(".logout-link").click(function (e) {
+        e.preventDefault(); // Prevent default action
+        window.location.href = "logout"; // Force redirection
+    });
+});
     // Toggle dark mode
     document.getElementById('toggleMode').addEventListener('click', function() {
       document.body.classList.toggle('dark-mode');
