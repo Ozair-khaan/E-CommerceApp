@@ -90,7 +90,7 @@ public class SecurityConfiguration {
 			http
 					.authorizeRequests()
 					.antMatchers("/icons/**", "/images/**", "/css/**", "/js/**").permitAll() // Allow public access to static files
-					.antMatchers("/login", "/register", "/newuserregister").permitAll()
+					.antMatchers("/login", "/register", "/newUserRegister").permitAll()
 					.antMatchers("/**").hasRole("USER") // Protect all other endpoints
 					.and()
 					.formLogin()

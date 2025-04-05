@@ -3,7 +3,7 @@ package com.jtspringproject.JtSpringProject.models;
 import javax.persistence.*;
 
 
-@Entity(name="CART")
+@Entity(name = "CART")
 public class Cart {
 
     @Id
@@ -11,7 +11,7 @@ public class Cart {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name = "customer_id")
     private User customer;
 
 //    @ManyToMany
@@ -42,29 +42,4 @@ public class Cart {
         this.customer = customer;
     }
 
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-
-//    public List<Product> getProductsByUser(int customer_id ) {
-//        List<Product> userProducts = new ArrayList<Product>();
-//        for (Product product : products) {
-//            if (product.getCustomer().getId() == customer_id) {
-//                userProducts.add(product);
-//            }
-//        }
-//        return userProducts;
-//    }
-
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
-
-//    public void addProduct(Product product) {
-//        products.add(product);
-//    }
-//
-//    public void removeProduct(Product product) {
-//        products.remove(product);
-//    }
 }

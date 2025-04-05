@@ -1,17 +1,21 @@
 package com.jtspringproject.JtSpringProject.controller;
 
-import com.jtspringproject.JtSpringProject.models.Cart;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.jtspringproject.JtSpringProject.repo.UserRepository;
+import com.jtspringproject.JtSpringProject.services.PurchaseService;
 import com.jtspringproject.JtSpringProject.services.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +31,12 @@ public class UserController {
     private final userService userService;
     private final productService productService;
     private final cartService cartService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PurchaseService purchaseService;
 
     @Autowired
     public UserController(userService userService, productService productService, cartService cartService) {
@@ -85,7 +95,7 @@ public class UserController {
         return mView;
     }
 
-    @RequestMapping(value = "newuserregister", method = RequestMethod.POST)
+    @RequestMapping(value = "newUserRegister", method = RequestMethod.POST)
     public ModelAndView newUseRegister(@ModelAttribute User user) {
         // Check if username already exists in database
         boolean exists = this.userService.checkUserExists(user.getUsername());
@@ -157,28 +167,107 @@ public class UserController {
         list.add(25);
         mv.addObject("marks", list);
         return mv;
-
-
     }
 
-
-    @GetMapping("cartDisplay")
-    public Object showCart(Model model, HttpSession session) {
-        ModelAndView mmView = new ModelAndView("cartproduct");
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.getUserByUsername(username);
-
-        if (user != null) {
-            model.addAttribute("userid", user.getId());
-            model.addAttribute("username", user.getUsername());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("password", user.getPassword());
-            model.addAttribute("address", user.getAddress());
-        } else {
-            model.addAttribute("msg", "User not found");
+    @PostMapping("/addToCart")
+    public ResponseEntity<String> addToCart(@RequestBody Map<String, Object> newProduct, HttpSession session) {
+        // Retrieve current cart from session (if exists)
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
         }
-        return mmView;
+
+        boolean productExists = false;
+
+        for (Map<String, Object> item : cartItems) {
+            if (item.get("name").equals(newProduct.get("name"))) {
+
+                int currentQuantity = ((Number) item.get("quantity")).intValue();
+                int additionalQuantity = ((Number) newProduct.get("quantity")).intValue();
+                int newQuantity = currentQuantity + additionalQuantity;
+                item.put("quantity", newQuantity);
+                double unitPrice = ((Number) newProduct.get("price")).doubleValue();
+                item.put("price", unitPrice * newQuantity);
+                productExists = true;
+                break;
+            }
+        }
+
+        if (!productExists) {
+            cartItems.add(newProduct);
+        }
+
+        session.setAttribute("cartItems", cartItems);
+        return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
     }
 
+    @GetMapping("showCart")
+    public String showCart(Model model, HttpSession session) {
 
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
+        }
+        model.addAttribute("cartItems", cartItems);
+        return "cart";
+    }
+
+    //purchase functionality code
+//    @PostMapping
+//    public String processPurchase(HttpSession session) {
+//        // Retrieve cart items from session
+//        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+//
+//        if (cartItems == null || cartItems.isEmpty()) {
+//            // Redirect to cart page with an error message if the cart is empty
+//            return "redirect:/showCart?error=empty";
+//        }
+//
+//        // Call the business logic to process the purchase
+//        boolean purchaseSuccessful = purchaseService.processPurchase(cartItems);
+//
+//        if (purchaseSuccessful) {
+//            // Clear the cart after successful purchase
+//            session.removeAttribute("cartItems");
+//            // Redirect to a confirmation page
+//            return "redirect:/purchaseConfirmation";
+//        } else {
+//            // Redirect to cart page with an error message if purchase fails
+//            return "redirect:/showCart?error=purchaseFailed";
+//        }
+//    }
+
+    @PostMapping("/purchase")
+    public String purchase(HttpSession session, Model model) {
+        // Retrieve cart items from session
+        List<Map<String, Object>> cartItems = (List<Map<String, Object>>) session.getAttribute("cartItems");
+
+        if (cartItems == null || cartItems.isEmpty()) {
+            model.addAttribute("message", "Your cart is empty. Nothing to purchase.");
+            return "purchaseConfirmation";
+        }
+
+        double totalAmount = 0.0;
+
+        // Ensure price consistency and calculate total amount
+        for (Map<String, Object> item : cartItems) {
+            Object priceObj = item.get("price");
+            double price = (priceObj instanceof Integer) ? ((Integer) priceObj).doubleValue() : (double) priceObj;
+
+            item.put("price", price); // Ensure price is always Double
+            int quantity = (int) item.get("quantity");
+            totalAmount += price * quantity;
+        }
+
+        // Store purchased items in request scope
+        model.addAttribute("purchasedItems", cartItems);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("message", "Thank you for your purchase! Your order has been successfully processed.");
+
+        // Clear the cart after purchase
+        session.removeAttribute("cartItems");
+
+        return "purchaseConfirmation"; // Redirect to purchase confirmation page
+    }
 }
