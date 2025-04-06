@@ -92,9 +92,9 @@
               <i class="fas fa-shopping-cart"></i> Cart
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link px-3" href="profileDisplay">Profile</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link px-3" href="logout">Logout</a>
           </li>

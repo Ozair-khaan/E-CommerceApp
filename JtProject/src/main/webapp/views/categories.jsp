@@ -7,6 +7,18 @@
     <title>Categories | SnapKart</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <style>
         body {
             background-color: #f8f9fa;
@@ -25,15 +37,60 @@
             background-color: #ff9900;
             border-color: #ff9900;
         }
+        .card {
+        border: none;
+        transition: transform 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+        .dashboard-summary {
+        background: linear-gradient(45deg, #ffa500, #ff5733);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .snapkart-brand {
+        font-weight: bold;
+        background: linear-gradient(45deg, #ffa500, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5rem;
+      }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">SnapKart</a>
-            <button class="btn btn-outline-light" id="darkModeToggle">Dark Mode</button>
+          <a class="navbar-brand snapkart-brand" href="/admin/">
+            <i class="fas fa-shopping-cart"></i> SnapKart
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/logout">Logout</a>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-warning btn-sm" id="toggleMode">
+                  Dark Mode
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
+      </nav>
     
     <div class="container mt-4">
         <h2 class="text-center">Manage Categories</h2>

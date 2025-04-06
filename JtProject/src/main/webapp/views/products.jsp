@@ -26,16 +26,16 @@
         .admin-heading { font-family: 'Poppins', sans-serif; font-weight: 700; color: #2c3e50; }
         .card { border: none; transition: transform 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .card:hover { transform: scale(1.05); }
-        .snapkart-brand { font-weight: bold; font-size: 1.5rem; color: white; }
+        .snapkart-brand { font-weight: bold; font-size: 2rem; color: white; }
         .dark-mode { background-color: #343a40 !important; color: white !important; }
         body.dark-mode { background-color: #121212 !important; color: #ffffff; }
         .dark-mode .card { background-color: #1e1e1e !important; color: #ffffff; border: 1px solid #333; }
         .dark-mode .btn-primary { background-color: #ff9900 !important; border-color: #ff9900; }
 		.dark-mode table { 
-    background-color: #222 !important; 
-    color: #fff !important;
-    border-collapse: collapse;
-}
+        background-color: #222 !important; 
+        color: #fff !important;
+        border-collapse: collapse;
+    }
 
 /* .dark-mode th, .dark-mode td {
     border: 1px solid #777 !important;
@@ -51,31 +51,31 @@
 } */
 
 
-.navbar {
+/* .navbar {
     padding: 15px 20px;
-    height: 70px;
-}
+    height: 65px;
+} */
 
 
-.snapkart-brand {
+/* .snapkart-brand {
     font-weight: bold;
     font-size: 1.5rem;
     display: flex;
     align-items: center;
-}
+} */
 
-.snapkart-brand i {
+/* .snapkart-brand i {
     margin-right: 8px;
     font-size: 28px;
     color: #FFA500;
-}
+} */
 
-.snapkart-logo {
+/* .snapkart-logo {
     font-weight: bold;
     background: linear-gradient(45deg, #FFA500, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
+} */
 
 
 .navbar-nav .nav-link {
@@ -102,6 +102,28 @@
     border-color: #ff9900;
 }
 
+    .card {
+        border: none;
+        transition: transform 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+        .dashboard-summary {
+        background: linear-gradient(45deg, #ffa500, #ff5733);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .snapkart-brand {
+        font-weight: bold;
+        background: linear-gradient(45deg, #ffa500, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5rem;
+      }
+
 
 
     </style>
@@ -109,24 +131,36 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand snapkart-brand" href="/admin/">
-            <i class="fas fa-shopping-cart"></i> 
-            <span class="snapkart-logo">SnapKart</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand snapkart-brand" href="/admin/">
+            <i class="fas fa-shopping-cart"></i> SnapKart
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+          >
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/admin/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin/logout">Logout</a></li>
-                <li class="nav-item"><button class="btn btn-warning btn-sm" id="toggleMode">Dark Mode</button></li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/logout">Logout</a>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-warning btn-sm" id="toggleMode">
+                  Dark Mode
+                </button>
+              </li>
             </ul>
+          </div>
         </div>
-    </div>
-</nav>
+      </nav>
 
 
 <div class="container-fluid mt-4">
@@ -183,7 +217,7 @@
 </script>
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -191,7 +225,20 @@
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
+
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet"
+      />
 
 </body>
 </html>
