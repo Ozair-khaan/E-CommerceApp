@@ -83,7 +83,7 @@
     </style>
   </head>
   <body>
-    <button href="logout" value="Logout"></button>
+    
 
     <i class="fa-solid fa-moon toggle-mode" id="toggleDarkMode"></i>
     <div class="container">
